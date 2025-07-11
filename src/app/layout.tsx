@@ -10,8 +10,10 @@ export default function RootLayout({
   return (
     <html>
       <StyledComponentsRegistry>
-        <Header />
-        <body>{children}</body>
+        <body>
+          <Header />
+          {children}
+        </body>
       </StyledComponentsRegistry>
     </html>
   )
