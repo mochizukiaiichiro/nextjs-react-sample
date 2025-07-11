@@ -7,8 +7,7 @@ const Header = () => {
     padding: 0px 0px;  
     border-bottom: 1px solid;
   `
-  // padding: ${ ({ theme }) => theme.space[0] } 0px;
-  
+
   const Ul = styled.ul`
     display: flex;
     padding: 0;

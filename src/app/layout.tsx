@@ -1,5 +1,5 @@
 
-import Header from "@/components/organisms/Header";
+import Header from "@/components/ui/header";
 import StyledComponentsRegistry from "@/lib/registry";
 
 export default function RootLayout({
