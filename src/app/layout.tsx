@@ -1,3 +1,5 @@
+
+import Header from "@/components/organisms/Header";
 import StyledComponentsRegistry from "@/lib/registry";
 
 export default function RootLayout({
@@ -8,7 +10,8 @@ export default function RootLayout({
   return (
     <html>
       <StyledComponentsRegistry>
-      <body>{children}</body>
+        <Header />
+        <body>{children}</body>
       </StyledComponentsRegistry>
     </html>
   )
