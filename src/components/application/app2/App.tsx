@@ -4,28 +4,44 @@ import { useState } from "react";
 
 export const App = () => {
   const [data, setData] = useState("");
-  const [users, setUsers] = useState("");
+  const [users, setUsers] = useState([]);
+  const [db, setDb] = useState([]);
 
   const onClick1 = async () => {
     const res = await fetch("/api");
-    const tmp = await res.json();
-    setData(tmp.message);
+    const { message } = await res.json();
+    setData(message);
   }
 
   const onClick2 = async () => {
     const res = await fetch("/api/users");
-    const tmp = await res.json();
-    const { data } = tmp;
-    setUsers(data[0].name)
+    const { data } = await res.json();
+    setUsers(data)
+  }
+
+  const onClick3 = async () => {
+    const res = await fetch("/api/db");
+    const { users } = await res.json();
+    setDb(users)
   }
 
   return (
     <>
-      <h1>API動作確認</h1>
+      <h1>Next.jsのAPIの実装と動作確認</h1>
       <button onClick={onClick1}>データ取得</button>
       <p>{data}</p>
       <button onClick={onClick2}>jsonplaceholder/usersデータ取得</button>
-      <p>{users}</p>
+      <ul>
+        {users.map((user: any) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+      <button onClick={onClick3}>データベースからのデータ取得</button>
+      <ul>
+        {db.map((db: any) => (
+          <li key={db.id}>{db.name}</li>
+        ))}
+      </ul>
     </>
   )
 }
