@@ -27,10 +27,10 @@ export const App = () => {
 
   return (
     <>
-      <h1>Next.jsのAPIの実装と動作確認</h1>
+      <h1>APIの実装と動作確認</h1>
       <button onClick={onClick1}>データ取得</button>
       <p>{data}</p>
-      <button onClick={onClick2}>jsonplaceholder/usersデータ取得</button>
+      <button onClick={onClick2}>外部APIからのデータ取得（jsonplaceholder/users）</button>
       <ul>
         {users.map((user: any) => (
           <li key={user.id}>{user.name}</li>
