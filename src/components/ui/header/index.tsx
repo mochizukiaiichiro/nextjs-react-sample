@@ -16,20 +16,26 @@ const Li = styled.li`
     margin-right: 20px;
   `
 const Header = () => {
+  const links = [
+    { path: "/", label: "トップ" },
+    { path: "app1", label: "アプリ１" },
+    { path: "app2", label: "アプリ２" },
+    { path: "app3", label: "アプリ３" },
+  ];
+
   return (
     <>
       <HeaderRoot>
         <nav>
           <Ul>
-            <Li>
-              <Link href="/">トップ</Link>
-            </Li>
-            <Li>
-              <Link href="/header/app1">アプリ１</Link>
-            </Li>
-            <Li>
-              <Link href="/header/app2">アプリ２</Link>
-            </Li>
+            {links.map(({ path, label }, index) => {
+              const href = path === "/" ? "/" : `/header/${path}`;
+              return (
+                <Li key={index} >
+                  <Link href={href} >{label}</Link>
+                </Li>
+              )
+            })}
           </Ul>
         </nav>
       </HeaderRoot>
