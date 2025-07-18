@@ -1,4 +1,5 @@
 "use client"
+import { appList } from "@/lib/apps"
 import Link from "next/link"
 import styled from "styled-components"
 
@@ -22,22 +23,16 @@ const Table = styled.table`
 `
 
 export default function Page() {
-  const lists = [
-    { path: "app1", title: "簡易メモアプリ" },
-    { path: "app2", title: "APIの実装と動作確認" },
-    { path: "app3", title: "外部APIからのデータフェッチ確認" },
-  ]
-
   return (
     <>
-      <h1>サンプルアプリ</h1>
+      <h1>トップページ</h1>
       <Table>
         <thead>
           <tr><th>タイトル</th></tr>
         </thead>
         <tbody>
-          {lists.map(({ title, path }, index) => (
-            <tr key={index}><td><Link href={`${path}`}> {title}</Link></td></tr>
+          {appList.map(({ id, title }, index) => (
+            <tr key={index}><td><Link href={`${id}`}> {title}</Link></td></tr>
           ))}
         </tbody>
       </Table>
