@@ -3,7 +3,7 @@
 import { User } from "@/types/user";
 import { useState } from "react";
 
-type ApiResponse = { data: User[] } | { error: string };
+type ApiResponse = { users: User[] } | { error: string };
 
 export const App = () => {
   const [data, setData] = useState("");
@@ -28,7 +28,7 @@ export const App = () => {
         return;
       }
 
-      setUsers(json.data);
+      setUsers(json.users);
       setError(null);
 
     } catch (error) {
