@@ -37,7 +37,7 @@ export default function Page() {
         </thead>
         <tbody>
           {lists.map(({ title, path }, index) => (
-            <tr key={index}><td><Link href={`/header/${path}`}> {title}</Link></td></tr>
+            <tr key={index}><td><Link href={`${path}`}> {title}</Link></td></tr>
           ))}
         </tbody>
       </Table>
