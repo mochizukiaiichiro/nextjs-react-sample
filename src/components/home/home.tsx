@@ -1,5 +1,5 @@
 "use client"
-import { appList } from "@/lib/apps"
+import { appMetaList } from "@/lib/appMetaList";
 import Link from "next/link"
 import styled from "styled-components"
 
@@ -23,7 +23,7 @@ const Table = styled.table`
 `
 
 export default function Home() {
-  const tableList = appList.filter(app => app.enabled);
+  const tableList = appMetaList.filter(app => app.enabled);
 
   return (
     <>

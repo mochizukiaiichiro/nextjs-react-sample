@@ -1,6 +1,6 @@
 "use client"
 
-import { appList } from "@/lib/apps";
+import { appMetaList } from "@/lib/appMetaList";
 import { User } from "@/types/user";
 import Link from "next/link";
 import React, { ChangeEvent, useCallback, useState } from "react";
@@ -32,9 +32,7 @@ export const App = ({ Id }: { Id: string }) => {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
-
-  //タイトルの取得
-  const title = new Map(appList.map(app => [app.id, app])).get(Id)?.title;
+  const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
   React.useEffect(() => {
     userDataFetch();
@@ -74,14 +72,29 @@ export const App = ({ Id }: { Id: string }) => {
     } else {
       setFilteredUsers(allUsers);
     }
-  },[filteredUsers,name])
+  }, [filteredUsers, name])
 
   return (
     <>
-      <h1>{title ?? "タイトル未定"}</h1>
-      <label>name:</label>
-      <input value={name} type="text" onChange={onChangeName} />
+      <h1>{app?.title ?? "タイトル未定"}</h1>
+      <p>{app?.description}</p>
+      <div>
+        <label>name:</label>
+        <input name="name" value={name} type="text" onChange={onChangeName} />
+        <label>username:</label>
+        <input name="username" value={name} type="text" onChange={onChangeName} />
+      </div>
+      <div>
+        <label>email:</label>
+        <input name="email" value={name} type="text" onChange={onChangeName} />
+        <label>phone:</label>
+        <input name="phone" value={name} type="text" onChange={onChangeName} />
+      </div>
+      <div>
+        <input name="website" value={name} type="text" onChange={onChangeName} />
+      </div>
       <button onClick={onClickSearchButton}>検索</button>
+      <button onClick={onClickSearchButton}>リセット</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Table>
         <thead>

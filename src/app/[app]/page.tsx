@@ -1,6 +1,7 @@
 import { JSX } from "react";
-import { appList } from "@/lib/apps";
+import { appComponentList } from "@/lib/appComponentList";
 import { notFound } from "next/navigation";
+import { appMetaList } from "@/lib/appMetaList";
 
 type Props = {
     params: { app: string };
@@ -8,13 +9,13 @@ type Props = {
 
 // パスとコンポーネントのマッピング
 const apps = new Map<string, JSX.Element>();
-appList.forEach(({ id, component }) => {
+appComponentList.forEach(({ id, component }) => {
     apps.set(id, component);
 });
 
 // 静的生成対象のパラメータ
 export async function generateStaticParams() {
-    return appList.map(({ id }) => ({ app: id }));
+    return appComponentList.map(({ id }) => ({ app: id }));
 }
 
 export default async function HeaderAppPage({ params }: Props) {
@@ -29,7 +30,7 @@ export default async function HeaderAppPage({ params }: Props) {
 
 export async function generateMetadata({ params }: { params: { app: string } }) {
     const { app } = await params;
-    const appMap = new Map(appList.map(appObj => [appObj.id, appObj]));
+    const appMap = new Map(appMetaList.map(app => [app.id, app]));
     const appData = appMap.get(app);
 
     if (!appData) {
