@@ -40,6 +40,6 @@ export async function generateMetadata({ params }: { params: { app: string } }) 
     }
     return {
         title: appData.title,
-        description: `${appData.title} の説明ページです。`,
+        description: `${appData.description}`,
     };
 }
