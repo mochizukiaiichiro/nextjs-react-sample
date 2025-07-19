@@ -23,16 +23,23 @@ const Table = styled.table`
 `
 
 export default function Home() {
+  const tableList = appList.filter(app => app.enabled);
+
   return (
     <>
       <h1>トップページ</h1>
       <Table>
         <thead>
-          <tr><th>タイトル</th></tr>
+          <tr>
+            <th>タイトル</th>
+            <th>説明</th></tr>
         </thead>
         <tbody>
-          {appList.map(({ id, title }, index) => (
-            <tr key={index}><td><Link href={`/${id}`}> {title}</Link></td></tr>
+          {tableList.map(({ id, title, description }, index) => (
+            <tr key={index}>
+              <td><Link href={`/${id}`}> {title}</Link></td>
+              <td>{description}</td>
+            </tr>
           ))}
         </tbody>
       </Table>
