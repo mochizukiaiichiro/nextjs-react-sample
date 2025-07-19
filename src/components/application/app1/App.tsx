@@ -3,9 +3,13 @@ import { ChangeEvent, useCallback, useState } from 'react'
 import { MemoList } from './components/MemoList'
 import { useMemoList } from './hooks/useMemoList'
 import { button } from './style/Style'
+import { appList } from '@/lib/apps'
 
-export const App = () => {
+export const App = ({ Id }: { Id: string }) => {
   const { memos, addTodo, deleteTodo } = useMemoList()
+
+  //タイトルの取得
+  const title = new Map(appList.map(app => [app.id, app])).get(Id)?.title;
 
   // テキストボック変数数
   const [text, setText] = useState<string>('')
@@ -30,7 +34,7 @@ export const App = () => {
 
   return (
     <>
-      <h1>簡易メモアプリ</h1>
+      <h1>{title ?? "タイトル未定"}</h1>
       <label>
         <input type="text" value={text} onChange={onChangeText} />
       </label>

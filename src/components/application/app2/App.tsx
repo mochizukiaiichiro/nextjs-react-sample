@@ -1,15 +1,19 @@
 "use client"
 
+import { appList } from "@/lib/apps";
 import { User } from "@/types/user";
 import { useState } from "react";
 
 type ApiResponse = { users: User[] } | { error: string };
 
-export const App = () => {
+export const App = ({ Id }: { Id: string }) => {
   const [data, setData] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [db, setDb] = useState([]);
   const [error, setError] = useState<string | null>(null);
+
+  //タイトルの取得
+  const title = new Map(appList.map(app => [app.id, app])).get(Id)?.title;
 
   const onClick1 = async () => {
     const res = await fetch("/api");
@@ -45,7 +49,7 @@ export const App = () => {
 
   return (
     <>
-      <h1>APIの実装と動作確認</h1>
+      <h1>{title ?? "タイトル未定"}</h1>
       <button onClick={onClick1}>データ取得</button>
       <p>{data}</p>
       <button onClick={onClick2}>外部APIからのデータ取得（jsonplaceholder/users）</button>

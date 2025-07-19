@@ -1,5 +1,6 @@
 "use client"
 
+import { appList } from "@/lib/apps";
 import { User } from "@/types/user";
 import Link from "next/link";
 import React, { ChangeEvent, useCallback, useState } from "react";
@@ -26,11 +27,14 @@ const Table = styled.table`
   }
 `
 
-export const App = () => {
+export const App = ({ Id }: { Id: string }) => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
+
+  //タイトルの取得
+  const title = new Map(appList.map(app => [app.id, app])).get(Id)?.title;
 
   React.useEffect(() => {
     userDataFetch();
@@ -64,7 +68,6 @@ export const App = () => {
   }
 
   //検索
-  
   const onClickSearchButton = useCallback(() => {
     if (name != "") {
       setFilteredUsers(allUsers.filter((value) => value.name.toLowerCase().includes(name.toLowerCase())));      // 大文字小文字の違いを吸収
@@ -75,7 +78,7 @@ export const App = () => {
 
   return (
     <>
-      <h1>データ検索・詳細表示</h1>
+      <h1>{title ?? "タイトル未定"}</h1>
       <label>name:</label>
       <input value={name} type="text" onChange={onChangeName} />
       <button onClick={onClickSearchButton}>検索</button>
