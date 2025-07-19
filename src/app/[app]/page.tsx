@@ -26,3 +26,20 @@ export default async function HeaderAppPage({ params }: Props) {
 
     return apps.get(app)!;
 }
+
+export async function generateMetadata({ params }: { params: { app: string } }) {
+    const { app } = await params;
+    const appMap = new Map(appList.map(appObj => [appObj.id, appObj]));
+    const appData = appMap.get(app);
+
+    if (!appData) {
+        return {
+            title: "ページが見つかりません",
+            description: "指定されたアプリは存在しません。",
+        };
+    }
+    return {
+        title: appData.title,
+        description: `${appData.title} の説明ページです。`,
+    };
+}
