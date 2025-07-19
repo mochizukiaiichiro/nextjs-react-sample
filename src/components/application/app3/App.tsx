@@ -2,7 +2,7 @@
 
 import { User } from "@/types/user";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import styled from "styled-components"
 
 type ApiResponse = { users: User[] } | { error: string };
@@ -27,8 +27,10 @@ const Table = styled.table`
 `
 
 export const App = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState<string>("");
 
   React.useEffect(() => {
     userDataFetch();
@@ -41,22 +43,42 @@ export const App = () => {
 
       if ("error" in json) {
         setError(json.error);
-        setUsers([]);
+        setAllUsers([]);
+        setFilteredUsers([]);
         return;
       }
 
-      setUsers(json.users);
+      setAllUsers(json.users);
+      setFilteredUsers(json.users);
       setError(null);
 
     } catch (error) {
       setError("通信エラーが発生しました");
-      setUsers([]);
+      setAllUsers([]);
+      setFilteredUsers([]);
     }
   }
 
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  }
+
+  //検索
+  
+  const onClickSearchButton = useCallback(() => {
+    if (name != "") {
+      setFilteredUsers(allUsers.filter((value) => value.name.toLowerCase().includes(name.toLowerCase())));      // 大文字小文字の違いを吸収
+    } else {
+      setFilteredUsers(allUsers);
+    }
+  },[filteredUsers,name])
+
   return (
     <>
-      <h1>外部APIからのデータフェッチ確認</h1>
+      <h1>データ検索・詳細表示</h1>
+      <label>name:</label>
+      <input value={name} type="text" onChange={onChangeName} />
+      <button onClick={onClickSearchButton}>検索</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Table>
         <thead>
@@ -70,7 +92,7 @@ export const App = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(({ id, name, username, email, phone, website }) => (
+          {filteredUsers.map(({ id, name, username, email, phone, website }) => (
             <tr key={id}>
               <td><Link href={`/app3/users/${id}`}>{id}</Link></td>
               <td>{name}</td>
@@ -82,7 +104,7 @@ export const App = () => {
           ))}
         </tbody>
       </Table>
-
+      {name.length > 0 && filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
     </>
   )
 }

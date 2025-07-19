@@ -18,7 +18,7 @@ export const appList = [
   {
     id: "app3",
     name: "App3",
-    title: "外部APIからのデータフェッチ確認",
+    title: "データ検索・詳細表示",
     component: <App3 />,
   },
 ];
