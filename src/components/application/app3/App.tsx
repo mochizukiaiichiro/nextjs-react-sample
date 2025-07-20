@@ -84,15 +84,13 @@ export const App = ({ Id }: { Id: string }) => {
   // 検索ボタン
   const onClickSearchButton = useCallback(() => {
     if ([name, username, email, phone, website].some(array => Boolean(array))) {
-      setFilteredUsers(
-        allUsers
-          .filter((user) => user.name.toLowerCase().includes(name.toLowerCase()))
-          .filter((user) => user.username.toLowerCase().includes(username.toLowerCase()))
-          .filter((user) => user.email.toLowerCase().includes(email.toLowerCase()))
-          .filter((user) => user.phone.toLowerCase().includes(phone.toLowerCase()))
-          .filter((user) => user.website.toLowerCase().includes(website.toLowerCase()))
-      );
-
+      let result = allUsers;
+      if (name) result = result.filter(user => user.name.toLowerCase().includes(name.toLowerCase()));
+      if (username) result = result.filter(user => user.username.toLowerCase().includes(username.toLowerCase()));
+      if (email) result = result.filter(user => user.email.toLowerCase().includes(email.toLowerCase()));
+      if (phone) result = result.filter(user => user.phone.toLowerCase().includes(phone.toLowerCase()));
+      if (website) result = result.filter(user => user.website.toLowerCase().includes(website.toLowerCase()));
+      setFilteredUsers(result);
     } else {
       setFilteredUsers(allUsers);
     }
