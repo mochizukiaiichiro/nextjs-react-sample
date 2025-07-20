@@ -81,21 +81,24 @@ export const App = ({ Id }: { Id: string }) => {
     setWebsite(e.target.value);
   }
 
-  //検索
+  // 検索ボタン
   const onClickSearchButton = useCallback(() => {
     if ([name, username, email, phone, website].some(array => Boolean(array))) {
-      setFilteredUsers(allUsers.filter((user) =>
-        user.name.toLowerCase().includes(name.toLowerCase())
-        && user.username.toLowerCase().includes(username.toLowerCase())
-        && user.email.toLowerCase().includes(email.toLowerCase())
-        && user.phone.toLowerCase().includes(phone.toLowerCase())
-        && user.website.toLowerCase().includes(website.toLowerCase())
-      ));
+      setFilteredUsers(
+        allUsers
+          .filter((user) => user.name.toLowerCase().includes(name.toLowerCase()))
+          .filter((user) => user.username.toLowerCase().includes(username.toLowerCase()))
+          .filter((user) => user.email.toLowerCase().includes(email.toLowerCase()))
+          .filter((user) => user.phone.toLowerCase().includes(phone.toLowerCase()))
+          .filter((user) => user.website.toLowerCase().includes(website.toLowerCase()))
+      );
+
     } else {
       setFilteredUsers(allUsers);
     }
   }, [filteredUsers, name, username, email, phone, website])
 
+  // リセットボタン
   const onClickResetButton = () => {
     setName("");
     setUsername("");
@@ -109,28 +112,28 @@ export const App = ({ Id }: { Id: string }) => {
     <>
       <h1>{app?.title ?? "タイトル未定"}</h1>
       <p>{app?.description}</p>
-      <div>
+      <form onSubmit={(e) => { e.preventDefault(); onClickSearchButton(); }}>
         <p>検索項目</p>
         <div>
-          <label>name:</label>
-          <input name="name" value={name} type="text" onChange={onChangeName} />
-          <label>username:</label>
-          <input name="username" value={username} type="text" onChange={onChangeUsername} />
+          <label htmlFor="name">name:</label>
+          <input id="name" name="name" value={name} type="text" onChange={onChangeName} />
+          <label htmlFor="username">username:</label>
+          <input id="username" name="username" value={username} type="text" onChange={onChangeUsername} />
         </div>
         <div>
-          <label>email:</label>
-          <input name="email" value={email} type="text" onChange={onChangeEmail} />
-          <label>phone:</label>
-          <input name="phone" value={phone} type="text" onChange={onChangePhone} />
-          <label>website:</label>
-          <input name="website" value={website} type="text" onChange={onChangeWebsite} />
+          <label htmlFor="email">email:</label>
+          <input id="email" name="email" value={email} type="text" onChange={onChangeEmail} />
+          <label htmlFor="phone">phone:</label>
+          <input id="phone" name="phone" value={phone} type="text" onChange={onChangePhone} />
+          <label htmlFor="website">website:</label>
+          <input id="website" name="website" value={website} type="text" onChange={onChangeWebsite} />
         </div>
         <div>
         </div>
         <button type="submit" onClick={onClickSearchButton}>検索</button>
-        <button type="submit" onClick={onClickResetButton}>リセット</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </div>
+        <button type="button" onClick={onClickResetButton}>リセット</button>
+      </form>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <Table>
         <thead>
           <tr>
@@ -156,7 +159,7 @@ export const App = ({ Id }: { Id: string }) => {
         </tbody>
       </Table>
       <p>検索結果: {filteredUsers.length} 件</p>
-      {name.length > 0 && filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
+      {filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
     </>
   )
 }
