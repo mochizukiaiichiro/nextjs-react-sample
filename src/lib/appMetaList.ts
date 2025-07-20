@@ -10,14 +10,14 @@ export const appMetaList = [
     id: "app2",
     name: "App2",
     title: "APIの実装と動作確認",
-    description: "Next.jsのAPIの実装方法や動作の調査用アプリケーション",
+    description: "Next.jsのAPIの実装方法の調査や動作検証用のアプリケーション",
     enabled: true,
   },
   {
     id: "app3",
     name: "App3",
     title: "データ検索・詳細表示",
-    description: "https://jsonplaceholder.typicode.com/usersから取得したデータを表示し詳細ページへの遷移、検索等をするアプリケーション",
+    description: "https://jsonplaceholder.typicode.com/usersから取得したデータの表示、詳細ページへの遷移、検索等をするアプリケーション",
     enabled: true,
   },
 ];
