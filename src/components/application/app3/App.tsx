@@ -83,7 +83,6 @@ export const App = ({ Id }: { Id: string }) => {
 
   // 検索ボタン
   const onClickSearchButton = useCallback(() => {
-    if ([name, username, email, phone, website].some(array => Boolean(array))) {
       let result = allUsers;
       if (name) result = result.filter(user => user.name.toLowerCase().includes(name.toLowerCase()));
       if (username) result = result.filter(user => user.username.toLowerCase().includes(username.toLowerCase()));
@@ -91,9 +90,6 @@ export const App = ({ Id }: { Id: string }) => {
       if (phone) result = result.filter(user => user.phone.toLowerCase().includes(phone.toLowerCase()));
       if (website) result = result.filter(user => user.website.toLowerCase().includes(website.toLowerCase()));
       setFilteredUsers(result);
-    } else {
-      setFilteredUsers(allUsers);
-    }
   }, [filteredUsers, name, username, email, phone, website])
 
   // リセットボタン
