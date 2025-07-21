@@ -4,27 +4,8 @@ import { appMetaList } from "@/lib/appMetaList";
 import { UserMainInfo } from "@/types/user";
 import Link from "next/link";
 import React, { ChangeEvent, useCallback, useState } from "react";
-import styled from "styled-components"
 import { useFetchUsers } from "./hooks/useFetchUsers";
-
-const Table = styled.table`
-  border: 1px solid #ccc;
-  border-collapse: collapse;
-  width: auto;
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-  }
-  thead {
-    background-color: #f5f5f5;
-  }
-  thead th {
-    color: #333;
-    font-weight: bold;
-  }
-`
+import { Table } from "./style/styled-components";
 
 export const App = ({ Id }: { Id: string }) => {
   const { allUsers, filteredUsers, setFilteredUsers, error, userDataFetch} = useFetchUsers();
