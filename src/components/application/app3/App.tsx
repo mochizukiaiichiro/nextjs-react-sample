@@ -33,20 +33,20 @@ export const App = ({ Id }: { Id: string }) => {
   const [error, setError] = useState<string | null>(null);
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
+  type SearchKeys = keyof UserMainInfo;
+  type SearchObj = Record<SearchKeys, string>;
+
   const searchKeys = ["name", "username", "email", "phone", "website"] as const;
-  const InitialTupleData: [keyof UserMainInfo, string][] = searchKeys.map((key) => [key, ""]);
+  const searchUseSateInitData: SearchObj = Object.fromEntries(searchKeys.map((value) => [value, ""])) as SearchObj;
+  const [search, setSearch] = useState<SearchObj>(searchUseSateInitData);
 
-  const MapInitialData = new Map(InitialTupleData);
-  const [search, setSearch] = useState<Map<keyof UserMainInfo, string>>(MapInitialData);
-
-  const SearchFieldChange = (key: keyof UserMainInfo) => (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(prev => {
-      const updated = new Map(prev);
-      updated.set(key, e.target.value);
-      return updated;
-    });
-  };
-
+  const onChangeHandler = (key: SearchKeys) => (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(prev => ({
+      ...prev,
+      [key]: e.target.value
+    }))
+  }
+  
   React.useEffect(() => {
     userDataFetch();
   }, []);
@@ -74,39 +74,22 @@ export const App = ({ Id }: { Id: string }) => {
     }
   }
 
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    SearchFieldChange("name")(e);
-  }
-
-  const onChangeUsername = (e: ChangeEvent<HTMLInputElement>) => {
-    SearchFieldChange("username")(e);
-  }
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    SearchFieldChange("email")(e);
-  }
-  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
-    SearchFieldChange("phone")(e);
-  }
-  const onChangeWebsite = (e: ChangeEvent<HTMLInputElement>) => {
-    SearchFieldChange("website")(e);
-  }
-
   // 検索ボタン
   const onClickSearchButton = useCallback(() => {
     let result = allUsers;
     searchKeys.forEach((searchKey) => {
-      const value = search.get(searchKey);
+      const value = search[searchKey];
       if (value) {
-        result = result.filter(user =>          
+        result = result.filter(user =>
           user[searchKey]?.toLowerCase().includes(value.toLowerCase()));
-      } 
+      }
     })
     setFilteredUsers(result);
   }, [search])
 
   // リセットボタン
   const onClickResetButton = () => {
-    setSearch(new Map(MapInitialData));
+    setSearch(searchUseSateInitData);
     setFilteredUsers(allUsers);
   };
 
@@ -118,17 +101,17 @@ export const App = ({ Id }: { Id: string }) => {
         <p>検索項目</p>
         <div>
           <label htmlFor="name">name:</label>
-          <input id="name" name="name" value={search.get("name") ?? ""} type="text" onChange={onChangeName} />
+          <input id="name" name="name" value={search.name} type="text" onChange={onChangeHandler("name")} />
           <label htmlFor="username">username:</label>
-          <input id="username" name="username" value={search.get("username") ?? ""} type="text" onChange={onChangeUsername} />
+          <input id="username" name="username" value={search.username} type="text" onChange={onChangeHandler("username")} />
         </div>
         <div>
           <label htmlFor="email">email:</label>
-          <input id="email" name="email" value={search.get("email") ?? ""} type="text" onChange={onChangeEmail} />
+          <input id="email" name="email" value={search.email} type="text" onChange={onChangeHandler("email")} />
           <label htmlFor="phone">phone:</label>
-          <input id="phone" name="phone" value={search.get("phone") ?? ""} type="text" onChange={onChangePhone} />
+          <input id="phone" name="phone" value={search.phone} type="text" onChange={onChangeHandler("phone")} />
           <label htmlFor="website">website:</label>
-          <input id="website" name="website" value={search.get("website") ?? ""} type="text" onChange={onChangeWebsite} />
+          <input id="website" name="website" value={search.website} type="text" onChange={onChangeHandler("website")} />
         </div>
         <div>
         </div>
