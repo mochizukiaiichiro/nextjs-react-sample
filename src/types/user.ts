@@ -1,12 +1,25 @@
-export interface User {
+export interface UserId {
   id: number;
+}
+export interface UserMainInfo {
   name: string;
   username: string;
   email: string;
-  address: Address;
   phone: string;
   website: string;
+}
+
+export interface UserDetailInfo {
   company: Company;
+  address: Address;
+}
+
+export type User = UserId & UserMainInfo & UserDetailInfo;
+
+export interface Company {
+  name: string;
+  catchPhrase: string;
+  bs: string;
 }
 
 export interface Address {
@@ -22,8 +35,3 @@ export interface Geo {
   lng: string;
 }
 
-export interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}

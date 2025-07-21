@@ -1,7 +1,7 @@
 "use client"
 
 import { appMetaList } from "@/lib/appMetaList";
-import { User } from "@/types/user";
+import { User, UserMainInfo } from "@/types/user";
 import Link from "next/link";
 import React, { ChangeEvent, useCallback, useState } from "react";
 import styled from "styled-components"
@@ -31,12 +31,21 @@ export const App = ({ Id }: { Id: string }) => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [name, setName] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [website, setWebsite] = useState<string>("");
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
+
+  const searchKeys = ["name", "username", "email", "phone", "website"] as const;
+  const InitialTupleData: [keyof UserMainInfo, string][] = searchKeys.map((key) => [key, ""]);
+
+  const MapInitialData = new Map(InitialTupleData);
+  const [search, setSearch] = useState<Map<keyof UserMainInfo, string>>(MapInitialData);
+
+  const SearchFieldChange = (key: keyof UserMainInfo) => (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(prev => {
+      const updated = new Map(prev);
+      updated.set(key, e.target.value);
+      return updated;
+    });
+  };
 
   React.useEffect(() => {
     userDataFetch();
@@ -66,39 +75,38 @@ export const App = ({ Id }: { Id: string }) => {
   }
 
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    SearchFieldChange("name")(e);
   }
+
   const onChangeUsername = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+    SearchFieldChange("username")(e);
   }
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    SearchFieldChange("email")(e);
   }
   const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
+    SearchFieldChange("phone")(e);
   }
   const onChangeWebsite = (e: ChangeEvent<HTMLInputElement>) => {
-    setWebsite(e.target.value);
+    SearchFieldChange("website")(e);
   }
 
   // 検索ボタン
   const onClickSearchButton = useCallback(() => {
-      let result = allUsers;
-      if (name) result = result.filter(user => user.name.toLowerCase().includes(name.toLowerCase()));
-      if (username) result = result.filter(user => user.username.toLowerCase().includes(username.toLowerCase()));
-      if (email) result = result.filter(user => user.email.toLowerCase().includes(email.toLowerCase()));
-      if (phone) result = result.filter(user => user.phone.toLowerCase().includes(phone.toLowerCase()));
-      if (website) result = result.filter(user => user.website.toLowerCase().includes(website.toLowerCase()));
-      setFilteredUsers(result);
-  }, [filteredUsers, name, username, email, phone, website])
+    let result = allUsers;
+    searchKeys.forEach((searchKey) => {
+      const value = search.get(searchKey);
+      if (value) {
+        result = result.filter(user =>          
+          user[searchKey]?.toLowerCase().includes(value.toLowerCase()));
+      } 
+    })
+    setFilteredUsers(result);
+  }, [search])
 
   // リセットボタン
   const onClickResetButton = () => {
-    setName("");
-    setUsername("");
-    setEmail("");
-    setPhone("");
-    setWebsite("");
+    setSearch(new Map(MapInitialData));
     setFilteredUsers(allUsers);
   };
 
@@ -110,17 +118,17 @@ export const App = ({ Id }: { Id: string }) => {
         <p>検索項目</p>
         <div>
           <label htmlFor="name">name:</label>
-          <input id="name" name="name" value={name} type="text" onChange={onChangeName} />
+          <input id="name" name="name" value={search.get("name") ?? ""} type="text" onChange={onChangeName} />
           <label htmlFor="username">username:</label>
-          <input id="username" name="username" value={username} type="text" onChange={onChangeUsername} />
+          <input id="username" name="username" value={search.get("username") ?? ""} type="text" onChange={onChangeUsername} />
         </div>
         <div>
           <label htmlFor="email">email:</label>
-          <input id="email" name="email" value={email} type="text" onChange={onChangeEmail} />
+          <input id="email" name="email" value={search.get("email") ?? ""} type="text" onChange={onChangeEmail} />
           <label htmlFor="phone">phone:</label>
-          <input id="phone" name="phone" value={phone} type="text" onChange={onChangePhone} />
+          <input id="phone" name="phone" value={search.get("phone") ?? ""} type="text" onChange={onChangePhone} />
           <label htmlFor="website">website:</label>
-          <input id="website" name="website" value={website} type="text" onChange={onChangeWebsite} />
+          <input id="website" name="website" value={search.get("website") ?? ""} type="text" onChange={onChangeWebsite} />
         </div>
         <div>
         </div>
