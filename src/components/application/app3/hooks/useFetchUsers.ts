@@ -1,5 +1,5 @@
 import { User } from "@/types/user";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export const useFetchUsers = () => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -7,7 +7,7 @@ export const useFetchUsers = () => {
   const [error, setError] = useState<string | null>(null);
   type ApiResponse = { users: User[] } | { error: string };
 
-  async function userDataFetch() {
+  const userDataFetch = useCallback(async () => {
     try {
       const res = await fetch("/api/users"); //https://jsonplaceholder.typicode.com/users
       const json: ApiResponse = await res.json();
@@ -27,7 +27,7 @@ export const useFetchUsers = () => {
       setAllUsers([]);
       setFilteredUsers([]);
     }
-  }
+  }, []);
 
   return { allUsers, filteredUsers, setFilteredUsers, error, userDataFetch };
 };
