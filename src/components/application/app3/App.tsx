@@ -1,12 +1,11 @@
 "use client"
 
 import { appMetaList } from "@/lib/appMetaList";
-import { User, UserMainInfo } from "@/types/user";
+import { UserMainInfo } from "@/types/user";
 import Link from "next/link";
 import React, { ChangeEvent, useCallback, useState } from "react";
 import styled from "styled-components"
-
-type ApiResponse = { users: User[] } | { error: string };
+import { useFetchUsers } from "./hooks/useFetchUsers";
 
 const Table = styled.table`
   border: 1px solid #ccc;
@@ -28,9 +27,7 @@ const Table = styled.table`
 `
 
 export const App = ({ Id }: { Id: string }) => {
-  const [allUsers, setAllUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const { allUsers, filteredUsers, setFilteredUsers, error, userDataFetch} = useFetchUsers();
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
   type SearchKeys = keyof UserMainInfo;
@@ -50,30 +47,7 @@ export const App = ({ Id }: { Id: string }) => {
   React.useEffect(() => {
     userDataFetch();
   }, []);
-
-  async function userDataFetch() {
-    try {
-      const res = await fetch("/api/users");  //https://jsonplaceholder.typicode.com/users
-      const json: ApiResponse = await res.json();
-
-      if ("error" in json) {
-        setError(json.error);
-        setAllUsers([]);
-        setFilteredUsers([]);
-        return;
-      }
-
-      setAllUsers(json.users);
-      setFilteredUsers(json.users);
-      setError(null);
-
-    } catch (error) {
-      setError("通信エラーが発生しました");
-      setAllUsers([]);
-      setFilteredUsers([]);
-    }
-  }
-
+ 
   // 検索ボタン
   const onClickSearchButton = useCallback(() => {
     let result = allUsers;
