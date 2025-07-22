@@ -1,26 +1,7 @@
 "use client"
 import { appMetaList } from "@/lib/appMetaList";
 import Link from "next/link"
-import styled from "styled-components"
-
-const Table = styled.table`
-  border: 1px solid #ccc;
-  border-collapse: collapse;
-  width: auto;
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-  }
-  thead {
-    background-color: #f5f5f5;
-  }
-  thead th {
-    color: #333;
-    font-weight: bold;
-  }
-`
+import { Table } from "./style/home-styled-components";
 
 export default function Home() {
   const tableList = appMetaList.filter(app => app.enabled);
@@ -32,7 +13,8 @@ export default function Home() {
         <thead>
           <tr>
             <th>タイトル</th>
-            <th>説明</th></tr>
+            <th>説明</th>
+          </tr>
         </thead>
         <tbody>
           {tableList.map(({ id, title, description }, index) => (

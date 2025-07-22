@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const PageWrapper = styled.div`
+  white-space: nowrap;
+`;
+
 export const Table = styled.table`
   border: 1px solid #ccc;
   border-collapse: collapse;

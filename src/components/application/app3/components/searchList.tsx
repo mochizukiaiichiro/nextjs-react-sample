@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Table } from "../style/styled-components"
+import { Table } from "../style/app3-styled-components"
 import { User } from "@/types/user"
 
 type Props = {
