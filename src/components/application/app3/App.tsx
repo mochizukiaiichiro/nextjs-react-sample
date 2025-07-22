@@ -1,52 +1,20 @@
 "use client"
 
 import { appMetaList } from "@/lib/appMetaList";
-import { UserMainInfo } from "@/types/user";
 import Link from "next/link";
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React from "react";
 import { useFetchUsers } from "./hooks/useFetchUsers";
+import { useSearchUsers } from "./hooks/useSearchUsers";
 import { Table } from "./style/styled-components";
 
 export const App = ({ Id }: { Id: string }) => {
-  const { allUsers, filteredUsers, setFilteredUsers, error, userDataFetch} = useFetchUsers();
+  const { allUsers, filteredUsers, error, userDataFetch,setFilteredUsers } = useFetchUsers();
+  const { search, onChangeHandler, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
-  type SearchKeys = keyof UserMainInfo;
-  type SearchObj = Record<SearchKeys, string>;
-
-  const searchKeys = ["name", "username", "email", "phone", "website"] as const;
-  const searchUseSateInitData: SearchObj = Object.fromEntries(searchKeys.map((value) => [value, ""])) as SearchObj;
-  const [search, setSearch] = useState<SearchObj>(searchUseSateInitData);
-
-  const onChangeHandler = (key: SearchKeys) => (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(prev => ({
-      ...prev,
-      [key]: e.target.value
-    }))
-  }
-  
   React.useEffect(() => {
     userDataFetch();
   }, []);
- 
-  // 検索ボタン
-  const onClickSearchButton = useCallback(() => {
-    let result = allUsers;
-    searchKeys.forEach((searchKey) => {
-      const value = search[searchKey];
-      if (value) {
-        result = result.filter(user =>
-          user[searchKey]?.toLowerCase().includes(value.toLowerCase()));
-      }
-    })
-    setFilteredUsers(result);
-  }, [search])
-
-  // リセットボタン
-  const onClickResetButton = () => {
-    setSearch(searchUseSateInitData);
-    setFilteredUsers(allUsers);
-  };
 
   return (
     <>
@@ -70,8 +38,9 @@ export const App = ({ Id }: { Id: string }) => {
         </div>
         <div>
         </div>
-        <button type="submit" onClick={onClickSearchButton}>検索</button>
+        <button type="submit">検索</button>
         <button type="button" onClick={onClickResetButton}>リセット</button>
+        <p>検索結果: {filteredUsers.length} 件</p>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Table>
@@ -97,8 +66,7 @@ export const App = ({ Id }: { Id: string }) => {
             </tr>
           ))}
         </tbody>
-      </Table>
-      <p>検索結果: {filteredUsers.length} 件</p>
+      </Table>      
       {filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
     </>
   )
