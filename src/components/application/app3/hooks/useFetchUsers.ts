@@ -29,5 +29,13 @@ export const useFetchUsers = () => {
     }
   }, []);
 
-  return { allUsers, filteredUsers, setFilteredUsers, error, userDataFetch };
+  return {
+    allUsers,
+    setAllUsers,
+    filteredUsers,
+    setFilteredUsers,
+    error,
+    setError,
+    userDataFetch,
+  };
 };
