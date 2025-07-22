@@ -33,11 +33,11 @@ Next.js をベースに複数の実装テーマに取り組み、基礎的な設
 - better-sqlite3 を用いた簡易DB操作（作成・読み出し）
 
 ### `app3`: ユーザー情報の検索と詳細表示
-- RESTful外部APIからのユーザー情報取得
+- 外部API（`jsonplaceholder.typicode.com/users`）からのユーザー情報取得
 - フィルタ検索機能（複数フィールドの部分一致）
 - Next.js Dynamic Routing による詳細ページへの遷移
 - カスタムフックによる責務分離（`useFetchUsers`, `useSearchUsers`, `useInitializeUsers`）
-- カスタムフックによるロジックの分離（`searchItemBox.tsx`, `searchList.tsx`）
+- ロジックの分離（`searchItemBox.tsx`, `searchList.tsx`）
 
 ### 💡 `app3`の設計ポイント
 
@@ -46,9 +46,6 @@ Next.js をベースに複数の実装テーマに取り組み、基礎的な設
   - 初期化処理 → `useInitializeUsers`
   - 検索状態管理 → `useSearchUsers`
   - 表示UI → Appコンポーネント
-
-- **再利用性とスケーラビリティ**
-  - 検索ロジックはジェネリック化しやすい構成（検索キー管理、入力状態保持、イベント抽出）
 
 - **型定義と整合性**
   - TypeScript による `UserMainInfo`, `UserDetailInfo`, `User` 型で安全性を確保
