@@ -36,8 +36,8 @@ export const App = ({ Id }: { Id: string }) => {
         </div>
         <button type="submit">検索</button>
         <button type="button" onClick={onClickResetButton}>リセット</button>
-        <p>検索結果: {filteredUsers.length} 件</p>
       </form>
+      <p>検索結果: {filteredUsers.length} 件</p>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Table>
         <thead>
