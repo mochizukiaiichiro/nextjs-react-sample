@@ -38,7 +38,7 @@ Next.js をベースに複数の実装テーマに取り組み、基礎的な設
 - Next.js Dynamic Routing による詳細ページへの遷移
 - カスタムフックによる責務分離（`useFetchUsers`, `useSearchUsers`, `useInitializeUsers`）
 
-## 💡 設計ポイント
+#### 💡 `app3`の設計ポイント
 
 - **責務分離**
   - データ取得 → `useFetchUsers`
