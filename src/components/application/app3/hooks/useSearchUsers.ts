@@ -9,15 +9,15 @@ export const useSearchUsers = (
   type SearchObj = Record<SearchKeys, string>;
   const searchKeys = ["name", "username", "email", "phone", "website"] as const;
 
-  const searchUseSateInitData: SearchObj = Object.fromEntries(
+  const searchItemsInitData: SearchObj = Object.fromEntries(
     searchKeys.map((value) => [value, ""])
   ) as SearchObj;
 
-  const [search, setSearch] = useState<SearchObj>(searchUseSateInitData);
+  const [searchItems, setSearchItems] = useState<SearchObj>(searchItemsInitData);
 
-  const onChangeHandler =
+  const onChangeSearchItemInput =
     (key: SearchKeys) => (e: ChangeEvent<HTMLInputElement>) => {
-      setSearch((prev) => ({
+      setSearchItems((prev) => ({
         ...prev,
         [key]: e.target.value,
       }));
@@ -27,7 +27,7 @@ export const useSearchUsers = (
   const onClickSearchButton = useCallback(() => {
     let result = allUsers;
     searchKeys.forEach((searchKey) => {
-      const value = search[searchKey];
+      const value = searchItems[searchKey];
       if (value) {
         result = result.filter((user) =>
           user[searchKey]?.toLowerCase().includes(value.toLowerCase())
@@ -35,18 +35,18 @@ export const useSearchUsers = (
       }
     });
     setFilteredUsers(result);
-  }, [search, allUsers]);
+  }, [searchItems, allUsers]);
 
   // リセットボタン
   const onClickResetButton = () => {
-    setSearch(searchUseSateInitData);
+    setSearchItems(searchItemsInitData);
     setFilteredUsers(allUsers);
   };
 
   return {
-    search,
-    setSearch,
-    onChangeHandler,
+    searchItems,
+    setSearchItems,
+    onChangeSearchItemInput,
     onClickSearchButton,
     onClickResetButton,
   };

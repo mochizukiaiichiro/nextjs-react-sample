@@ -9,7 +9,7 @@ import { Table } from "./style/styled-components";
 
 export const App = ({ Id }: { Id: string }) => {
   const { allUsers, filteredUsers, error, userDataFetch,setFilteredUsers } = useFetchUsers();
-  const { search, onChangeHandler, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
+  const {searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
   React.useEffect(() => {
@@ -24,17 +24,17 @@ export const App = ({ Id }: { Id: string }) => {
         <p>検索項目</p>
         <div>
           <label htmlFor="name">name:</label>
-          <input id="name" name="name" value={search.name} type="text" onChange={onChangeHandler("name")} />
+          <input id="name" name="name" value={searchItems.name} type="text" onChange={onChangeSearchItemInput("name")} />
           <label htmlFor="username">username:</label>
-          <input id="username" name="username" value={search.username} type="text" onChange={onChangeHandler("username")} />
+          <input id="username" name="username" value={searchItems.username} type="text" onChange={onChangeSearchItemInput("username")} />
         </div>
         <div>
           <label htmlFor="email">email:</label>
-          <input id="email" name="email" value={search.email} type="text" onChange={onChangeHandler("email")} />
+          <input id="email" name="email" value={searchItems.email} type="text" onChange={onChangeSearchItemInput("email")} />
           <label htmlFor="phone">phone:</label>
-          <input id="phone" name="phone" value={search.phone} type="text" onChange={onChangeHandler("phone")} />
+          <input id="phone" name="phone" value={searchItems.phone} type="text" onChange={onChangeSearchItemInput("phone")} />
           <label htmlFor="website">website:</label>
-          <input id="website" name="website" value={search.website} type="text" onChange={onChangeHandler("website")} />
+          <input id="website" name="website" value={searchItems.website} type="text" onChange={onChangeSearchItemInput("website")} />
         </div>
         <div>
         </div>
