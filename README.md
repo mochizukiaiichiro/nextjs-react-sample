@@ -1,46 +1,93 @@
-# Next.js React Sample
+# nextjs-react-sample
 
-ユーザー検索機能を備えた Next.js × React のサンプルアプリです。  
-TypeScript による型安全な設計と、検索条件の抽象化・UI連携の工夫を通じて、フルスタック開発の基礎力を高める構成になっています。
-
----
-
-## 技術スタック
-
-- Next.js
-- React
-- TypeScript
-- better-sqlite3（ローカルDB）
-- styled-components
-- RESTful API設計
+ITエンジニア職への応募に際し、技術力・設計力・実装スタンスを可視化するために作成したポートフォリオ用のアプリケーションです。
+Next.js をベースに複数の実装テーマに取り組み、モダンな設計原則と責務分離を意識した構成を採用しています。
 
 ---
 
-## 主な機能
+## 🔧 技術スタック
 
-- ユーザー一覧の表示と検索（name / username / email / phone / website）
-- 検索条件の Map による一元管理と抽象化
-- `keyof UserMainInfo` による型安全なフィールド制御
-- JSXのループ生成によるフォーム構成の最適化
-- リセット処理の統一と初期値の再利用
-- SQLite によるローカルデータ管理
-
----
-
-## ポイント
-
-- 検索条件は `Map<keyof UserMainInfo, string>` で一元管理し、フィールド数が増えても拡張性を保てる構成に。
-- JSX側は `searchKeys.map(...)` によるループ生成で保守性を向上。
-- 型安全性を重視し、`keyof UserMainInfo` によるフィールド制限と抽象化を両立。
-- 状態更新は `setSearch(new Map(...))` によって React の再レンダリングを保証。
-- `SearchFieldChange()` の高階関数化により、複数フィールドの入力処理を統一。
+| 項目           | 使用技術                                      |
+|----------------|-----------------------------------------------|
+| フレームワーク | Next.js 13 / App Router                       |
+| 言語           | TypeScript                                    |
+| UI/Styling     | styled-components                              |
+| DB             | better-sqlite3                                 |
+| API通信        | fetch API / RESTful                           |
+| フォルダ構成   | 機能単位で分離されたアプリ構成（app1, app2, app3） |
 
 ---
 
-## セットアップ
+## 📦 アプリケーション概要
+
+このプロジェクトは `app1`, `app2`, `app3` の3つのアプリケーションを含み、それぞれ異なる技術テーマで構成されています。
+
+### `app1`: 簡易メモアプリ
+- 状態管理・イベント処理の基礎をNext.js環境下で再構築
+- カスタムフックによるロジックの分離（`useMemoList`）
+
+### `app2`: API通信とデータ取得検証
+- Next.js API Routesによる内部APIエンドポイントの構築
+- 外部API（`jsonplaceholder.typicode.com/users`）との通信実装
+- better-sqlite3 を用いた簡易DB操作（作成・読み出し）
+
+### `app3`: ユーザー情報の検索と詳細表示
+- RESTful外部APIからのユーザー情報取得
+- フィルタ検索機能（複数フィールドの部分一致）
+- Next.js Dynamic Routing による詳細ページへの遷移
+- カスタムフックによる責務分離（`useFetchUsers`, `useSearchUsers`, `useInitializeUsers`）
+
+---
+
+## 🧩 動的ページ生成の構成
+
+このリポジトリでは、Next.js の App Router による `param-based dynamic routing` を活用し、複数アプリケーションを柔軟に切り替え可能な構成にしています。
+
+### 🔗 該当ファイルと役割
+
+| ファイル                         | 役割                                                                 |
+|----------------------------------|----------------------------------------------------------------------|
+| `src/lib/appMetaList.ts`         | 各アプリのメタ情報（ID・タイトル・説明）の一覧を定義                          |
+| `src/lib/appComponentList.tsx`   | 各アプリIDと対応する JSX コンポーネントの一覧を定義                          |
+| `src/app/[app]/page.tsx`         | パス引数 `app` に基づき、対象コンポーネントを検索・表示する動的ルーティング構成 |
+
+### ✨ 実行イメージ
+
+- `http://localhost:3000/app1` → メモアプリを表示  
+- `http://localhost:3000/app2` → API検証アプリを表示  
+- `http://localhost:3000/app3` → ユーザー検索アプリを表示
+
+この構成により、**新しいアプリを定義する場合は、`appMetaList` と `appComponentList` に追記するだけでルーティングが自動生成されます**。
+
+---
+
+## 💡 設計のこだわり
+
+- **責務分離**
+  - データ取得 → `useFetchUsers`
+  - 初期化処理 → `useInitializeUsers`
+  - 検索状態管理 → `useSearchUsers`
+  - 表示UI → Appコンポーネント
+
+- **再利用性とスケーラビリティ**
+  - 検索ロジックはジェネリック化しやすい構成（検索キー管理、入力状態保持、イベント抽出）
+
+- **テスト性**
+  - 副作用を一箇所に集約 → 初期化・検索処理のモック化が容易
+
+- **型定義と整合性**
+  - TypeScript による `UserMainInfo`, `UserDetailInfo`, `User` 型で安全性を確保
+
+---
+
+## 🚀 起動方法
 
 ```bash
-git clone https://github.com/mochizukiaiichiro/nextjs-react-sample.git
-cd nextjs-react-sample
+# 依存インストール
 npm install
+
+# 開発サーバー起動
 npm run dev
+
+# アクセス
+http://localhost:3000/
