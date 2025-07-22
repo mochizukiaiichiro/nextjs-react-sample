@@ -1,20 +1,16 @@
 "use client"
 
-import { appMetaList } from "@/lib/appMetaList";
 import Link from "next/link";
 import React from "react";
-import { useFetchUsers } from "./hooks/useFetchUsers";
+import { appMetaList } from "@/lib/appMetaList";
 import { useSearchUsers } from "./hooks/useSearchUsers";
+import { useInitializeUsers } from "./hooks/useInitializeUsers";
 import { Table } from "./style/styled-components";
 
 export const App = ({ Id }: { Id: string }) => {
-  const { allUsers, filteredUsers, error, userDataFetch,setFilteredUsers } = useFetchUsers();
-  const {searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
+  const { allUsers, filteredUsers, error, setFilteredUsers } = useInitializeUsers();
+  const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
-
-  React.useEffect(() => {
-    userDataFetch();
-  }, []);
 
   return (
     <>
@@ -66,7 +62,7 @@ export const App = ({ Id }: { Id: string }) => {
             </tr>
           ))}
         </tbody>
-      </Table>      
+      </Table>
       {filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
     </>
   )
