@@ -1,9 +1,9 @@
 "use client"
 import { appMetaList } from "@/lib/appMetaList";
 import Link from "next/link"
-import { Table } from "./style/home-styled-components";
+import { Table } from "./style/toppage-styled-components";
 
-export default function Home() {
+export default function TopPage() {
   const tableList = appMetaList.filter(app => app.enabled);
 
   return (

@@ -1,9 +1,9 @@
-import Home from "@/components/home/home";
+import TopPage from "@/components/toppage/toppage";
 
 export default function Page() {
   return (
     <>
-      <Home />
+      <TopPage />
     </>
   )
 }
