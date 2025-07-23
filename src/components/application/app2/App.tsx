@@ -14,14 +14,14 @@ export const App = ({ Id }: { Id: string }) => {
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
   const onClick1 = async () => {
-    const res = await fetch("/api");
+    const res = await fetch("/api/app2");
     const { message } = await res.json();
     setData(message);
   }
 
   const onClick2 = async () => {
     try {
-      const res = await fetch("/api/users");
+      const res = await fetch("/api/app2/users");
       const json: ApiResponse = await res.json();
 
       if ("error" in json) {
@@ -40,7 +40,7 @@ export const App = ({ Id }: { Id: string }) => {
   }
 
   const onClick3 = async () => {
-    const res = await fetch("/api/db");
+    const res = await fetch("/api/app2/db");
     const { users } = await res.json();
     setDb(users)
   }

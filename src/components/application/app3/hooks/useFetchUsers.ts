@@ -9,7 +9,7 @@ export const useFetchUsers = () => {
 
   const userDataFetch = useCallback(async () => {
     try {
-      const res = await fetch("/api/users"); //https://jsonplaceholder.typicode.com/users
+      const res = await fetch("/api/app2/users"); //https://jsonplaceholder.typicode.com/users
       const json: ApiResponse = await res.json();
 
       if ("error" in json) {

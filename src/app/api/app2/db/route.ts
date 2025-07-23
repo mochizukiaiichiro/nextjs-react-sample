@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const db = new Database("src/app/api/db/database.sqlite3");
+  const db = new Database("src/app/api/app2/db/database.sqlite3");
 
   // テーブル作成
   db.exec(`
