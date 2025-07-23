@@ -1,7 +1,7 @@
 # nextjs-react-sample
 
-Next.js、React、TypeScriptの習得のために作成したアプリケーションです。
-実装方法の調査や動作の検証などの複数のテーマを実装しています。
+Next.js、React、TypeScriptの勉強のために作成したアプリケーションです。
+実装方法の調査や動作の検証などの複数のテーマを実装していきます。
 
 ---
 
@@ -18,12 +18,12 @@ Next.js、React、TypeScriptの習得のために作成したアプリケーシ�
 
 ---
 
-## 概要
+## 説明
 
 実装したアプリについて
 
 ### `app1`: 簡易メモアプリ
-モダンJavaScriptの基本から始めるReact実践の教科書からのソースコードの移植
+モダンJavaScriptの基本から始めるReact実践の教科書のソースコードをNext.jsに移植して動作させたアプリ
 
 概要
 - 状態管理・イベント処理の基礎をNext.js環境下で再構築
@@ -34,14 +34,14 @@ Next.jsのAPIの実装方法の検証や動作確認のためのアプリ
 
 概要
 - Next.js API Routesによる内部APIエンドポイントの構築
-- 外部API（`jsonplaceholder.typicode.com/users`）との通信実装
+- 外部APIとの通信の実装
 - better-sqlite3 を用いた簡易DB操作（作成・読み出し）
 
 ### `app3`: ユーザー情報の検索と詳細表示
 APIでのデータ取得とテーブルでの表示・検索・並び替えをするアプリ
 
 概要
-- ユーザー一覧データの取得 外部API（`jsonplaceholder.typicode.com/users`）からのユーザー情報取得
+- 外部API（`jsonplaceholder.typicode.com/users`）からのユーザー情報の取得
 - 複数項目による条件検索
 - テーブル列の並び替え
 - ユーザー詳細ページへのリンク遷移（Dynamic Routing）
