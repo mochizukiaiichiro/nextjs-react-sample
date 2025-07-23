@@ -4,19 +4,25 @@ import { User } from "@/types/user"
 
 type Props = {
     filteredUsers: User[]
+    sortKey: keyof User | null;
+    sortOrder: "asc" | "desc";
+    handleSort: (key: keyof User) => void;
 }
 
-export const SearchList = ({ filteredUsers }: Props) => {
+const columnKeys: (keyof User)[] = ["id", "name", "username", "email", "phone", "website"];
+
+export const SearchList = (props: Props) => {
+    const { filteredUsers, sortKey, sortOrder, handleSort } = props;
     return (
         <Table>
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>username</th>
-                    <th>email</th>
-                    <th>phone</th>
-                    <th>website</th>
+                    {columnKeys.map((key) => (
+                        <th key={key} onClick={() => handleSort(key)} style={{ cursor: "pointer" }}>
+                            {key}
+                            {sortKey === key && (sortOrder === "asc" ? " 🔼" : " 🔽")}
+                        </th>
+                    ))}
                 </tr>
             </thead>
             <tbody>

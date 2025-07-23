@@ -1,17 +1,18 @@
 "use client"
 
-import React from "react";
 import { appMetaList } from "@/lib/appMetaList";
 import { useSearchUsers } from "./hooks/useSearchUsers";
 import { useInitializeUsers } from "./hooks/useInitializeUsers";
 import { SearchList } from "./components/searchList";
 import { SearchItemBox } from "./components/searchItemBox";
 import { PageWrapper } from "./style/app3-styled-components";
+import { useSortUsers } from "./hooks/useSortUsers";
 
 export const App = ({ Id }: { Id: string }) => {
   const { allUsers, filteredUsers, error, setFilteredUsers } = useInitializeUsers();
   const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
   const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
+  const { sortKey, sortOrder, handleSort, sortedUsers } = useSortUsers(filteredUsers);
 
   return (
     <PageWrapper>
@@ -23,7 +24,12 @@ export const App = ({ Id }: { Id: string }) => {
         onClickResetButton={onClickResetButton}
         onChangeSearchItemInput={onChangeSearchItemInput} />
       <p>検索結果: {filteredUsers.length} 件</p>
-      <SearchList filteredUsers={filteredUsers} />
+      <SearchList
+        filteredUsers={sortedUsers}
+        sortKey={sortKey}
+        sortOrder={sortOrder}
+        handleSort={handleSort}
+      />
       {error && <p style={{ color: "red" }}>{error}</p>}
       {filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
     </PageWrapper>
