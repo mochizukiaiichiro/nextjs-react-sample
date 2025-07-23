@@ -9,9 +9,9 @@ import { PageWrapper } from "./style/app3-styled-components";
 import { useSortUsers } from "./hooks/useSortUsers";
 
 export const App = ({ Id }: { Id: string }) => {
+  const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
   const { allUsers, filteredUsers, error, setFilteredUsers } = useInitializeUsers();
   const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
-  const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
   const { sortKey, sortOrder, handleSort, sortedUsers } = useSortUsers(filteredUsers);
 
   return (
@@ -22,7 +22,8 @@ export const App = ({ Id }: { Id: string }) => {
       <SearchItemBox searchItems={searchItems}
         onClickSearchButton={onClickSearchButton}
         onClickResetButton={onClickResetButton}
-        onChangeSearchItemInput={onChangeSearchItemInput} />
+        onChangeSearchItemInput={onChangeSearchItemInput}
+      />
       <p>検索結果: {filteredUsers.length} 件</p>
       <SearchList
         filteredUsers={sortedUsers}
