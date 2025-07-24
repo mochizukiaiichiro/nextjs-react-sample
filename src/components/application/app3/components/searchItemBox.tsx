@@ -5,10 +5,11 @@ type Props = {
     onChangeSearchItemInput: (key: keyof UserMainInfo) => (e: React.ChangeEvent<HTMLInputElement>) => void;
     onClickSearchButton: () => void;
     onClickResetButton: () => void;
+    isSubmitting: boolean;
 }
 
 export const SearchItemBox = (props: Props) => {
-    const { searchItems, onChangeSearchItemInput, onClickResetButton, onClickSearchButton } = props;
+    const { searchItems, onChangeSearchItemInput, onClickResetButton, onClickSearchButton, isSubmitting } = props;
 
     return (
         <form onSubmit={(e) => { e.preventDefault(); onClickSearchButton(); }}>
@@ -28,7 +29,7 @@ export const SearchItemBox = (props: Props) => {
             </div>
             <div>
             </div>
-            <button type="submit">検索</button>
+            <button type="submit" disabled={isSubmitting}>{isSubmitting ? "検索中…" : "検索"}</button>
             <button type="button" onClick={onClickResetButton}>リセット</button>
         </form>
     )

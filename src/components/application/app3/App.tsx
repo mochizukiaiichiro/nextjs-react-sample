@@ -6,10 +6,11 @@ import { SearchList } from "./components/searchList";
 import { SearchItemBox } from "./components/searchItemBox";
 import { PageWrapper } from "./style/app3-styled-components";
 import { useSortUsers } from "./hooks/useSortUsers";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const App = () => {
-  const { allUsers, filteredUsers, error, setFilteredUsers } = useInitializeUsers();
-  const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
+  const { allUsers, filteredUsers, error, setFilteredUsers, isLoading } = useInitializeUsers();
+  const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton, isSubmitting } = useSearchUsers(allUsers, setFilteredUsers);
   const { sortKey, sortOrder, handleSort, sortedUsers } = useSortUsers(filteredUsers);
 
   return (
@@ -19,16 +20,22 @@ export const App = () => {
         onClickSearchButton={onClickSearchButton}
         onClickResetButton={onClickResetButton}
         onChangeSearchItemInput={onChangeSearchItemInput}
+        isSubmitting={isSubmitting}
       />
-      <p>検索結果: {filteredUsers.length} 件</p>
-      <SearchList
-        filteredUsers={sortedUsers}
-        sortKey={sortKey}
-        sortOrder={sortOrder}
-        handleSort={handleSort}
-      />
+      {isLoading || isSubmitting ? <Skeleton /> :
+        (<>
+          <p>検索結果: {filteredUsers.length} 件</p>
+          <SearchList
+            filteredUsers={sortedUsers}
+            sortKey={sortKey}
+            sortOrder={sortOrder}
+            handleSort={handleSort}
+          />
+        </>)}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {filteredUsers.length === 0 && (<p>該当するユーザーが見つかりません</p>)}
+      {(isLoading || isSubmitting || filteredUsers.length === 0) && (
+        <p>該当するユーザーが見つかりません</p>
+      )}
     </PageWrapper>
   )
 }

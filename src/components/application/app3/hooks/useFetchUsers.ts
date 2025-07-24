@@ -6,6 +6,7 @@ export const useFetchUsers = () => {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
   type ApiResponse = { users: User[] } | { error: string };
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const userDataFetch = useCallback(async () => {
     try {
@@ -27,6 +28,7 @@ export const useFetchUsers = () => {
       setAllUsers([]);
       setFilteredUsers([]);
     }
+    setIsLoading(false);
   }, []);
 
   return {
@@ -37,5 +39,7 @@ export const useFetchUsers = () => {
     error,
     setError,
     userDataFetch,
+    isLoading,
+    setIsLoading,
   };
 };

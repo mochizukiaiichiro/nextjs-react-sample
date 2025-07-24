@@ -13,7 +13,9 @@ export const useSearchUsers = (
     searchKeys.map((value) => [value, ""])
   ) as SearchObj;
 
-  const [searchItems, setSearchItems] = useState<SearchObj>(searchItemsInitData);
+  const [searchItems, setSearchItems] =
+    useState<SearchObj>(searchItemsInitData);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onChangeSearchItemInput =
     (key: SearchKeys) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +27,8 @@ export const useSearchUsers = (
 
   // 検索ボタン
   const onClickSearchButton = useCallback(() => {
+    setIsSubmitting(true);
+
     let result = allUsers;
     searchKeys.forEach((searchKey) => {
       const value = searchItems[searchKey];
@@ -34,6 +38,8 @@ export const useSearchUsers = (
         );
       }
     });
+    setIsSubmitting(false);
+
     setFilteredUsers(result);
   }, [searchItems, allUsers]);
 
@@ -49,5 +55,7 @@ export const useSearchUsers = (
     onChangeSearchItemInput,
     onClickSearchButton,
     onClickResetButton,
+    isSubmitting,
+    setIsSubmitting,
   };
 };
