@@ -1,4 +1,19 @@
-export const appMetaList = [
+import { default as App1 } from "@/components/application/app1/App";
+import { default as App2 } from "@/components/application/app2/App";
+import { default as App3 } from "@/components/application/app3/App";
+import { default as App4 } from "@/components/application/app4/App";
+import { JSX } from "react";
+
+export type AppMetaData = {
+  id: string;
+  name: string;
+  title: string;
+  description: string;
+  enabled: boolean;
+  component: JSX.Element;
+};
+
+export const appMetaDataList: AppMetaData[] = [
   {
     id: "app1",
     name: "App1",
@@ -6,6 +21,7 @@ export const appMetaList = [
     description:
       "モダンJavaScriptの基本から始めるReact実践の教科書のサンプルアプリケーションをNext.jsに移植",
     enabled: true,
+    component: <App1 />,
   },
   {
     id: "app2",
@@ -13,6 +29,7 @@ export const appMetaList = [
     title: "APIの実装と動作確認",
     description: "Next.jsのAPIの実装方法の調査や動作検証用のアプリケーション",
     enabled: true,
+    component: <App2 />,
   },
   {
     id: "app3",
@@ -21,6 +38,7 @@ export const appMetaList = [
     description:
       "https://jsonplaceholder.typicode.com/usersから取得したデータの表示、詳細ページへの遷移、検索等をするアプリケーション",
     enabled: true,
+    component: <App3 />,
   },
   {
     id: "app4",
@@ -29,5 +47,6 @@ export const appMetaList = [
     description:
       "フォームからデータベースへデータの登録を行う。またデータの取得を行うアプリケーション",
     enabled: true,
+    component: <App4 />,
   },
 ];

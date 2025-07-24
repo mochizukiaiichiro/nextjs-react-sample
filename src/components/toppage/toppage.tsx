@@ -1,10 +1,10 @@
 "use client"
-import { appMetaList } from "@/lib/appMetaList";
 import Link from "next/link"
 import { Table } from "./style/toppage-styled-components";
+import { appMetaDataList } from "@/lib/appMetaDataList";
 
 export default function TopPage() {
-  const tableList = appMetaList.filter(app => app.enabled);
+  const tableList = appMetaDataList.filter(app => app.enabled);
 
   return (
     <>

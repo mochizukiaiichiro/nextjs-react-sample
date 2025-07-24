@@ -1,11 +1,16 @@
-import { appMetaList } from "@/lib/appMetaList";
+import { AppMetaData, appMetaDataList } from "@/lib/appMetaDataList";
 
-export const Title = ({ Id }: { Id: string }) => {
-const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
+const apps = new Map<string, AppMetaData>();
+appMetaDataList.forEach(appMeatData => {
+    apps.set(appMeatData.id, appMeatData);
+});
+
+export const Title = ({ app }: { app: string }) => {
+    console.log(app);
     return (
         <>
-            <h1>{app?.title ?? "タイトル未定"}</h1>
-            <p>{app?.description}</p>
+            <h1>{apps.get(app)?.title ?? "タイトル未定"}</h1>
+            <p>{apps.get(app)?.description}</p>
         </>
     )
 }
