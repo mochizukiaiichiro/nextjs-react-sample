@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { appMetaDataRecord, enabledAppList } from "@/lib/appMetaDataRecord";
+import { appMetaDataRecord, enabledAppIds } from "@/lib/appMetaDataRecord";
 import dynamic from "next/dynamic";
 import { Title } from "../../components/ui/Title";
 import { Skeleton } from "../../components/ui/skeleton";
@@ -10,16 +10,16 @@ type Props = {
 
 export default async function AppPage({ params }: Props) {
     const { app } = await params;
-    const importFn = appMetaDataRecord[app].componentPath;
+    const meta = appMetaDataRecord[app];
 
-    if (!importFn) notFound();
-    const Component = dynamic(importFn, {
+    if (!meta || !meta.enabled) notFound();
+    const Component = dynamic(meta.componentPath, {
         loading: () => <Skeleton />,
     });
 
     return (
         <>
-            <Title app={app} appMetaDataRecord={appMetaDataRecord}  />
+            <Title app={app} appMetaDataRecord={appMetaDataRecord} />
             <Component />
         </>
     )
@@ -27,7 +27,7 @@ export default async function AppPage({ params }: Props) {
 
 // 静的生成対象のパラメータ
 export async function generateStaticParams() {
-    return enabledAppList.map(({ id }) => ({ app: id }));
+    return enabledAppIds;
 }
 
 //ページのメタ情報

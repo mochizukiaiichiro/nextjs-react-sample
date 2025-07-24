@@ -47,5 +47,8 @@ export const appMetaDataRecord: Record<string, AppMetaData> = {
   },
 };
 
+//トップページ・画面一覧用のリスト
+export const enabledAppList: AppMetaData[] = Object.values(appMetaDataRecord).filter(app => app.enabled);
 
-export const enabledAppList = Object.values(appMetaDataRecord).filter(app => app.enabled);
+//generateStaticParams()用のリスト
+export const enabledAppIds = enabledAppList.map((id) => ({ app: id.id }));
