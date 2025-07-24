@@ -1,8 +1,4 @@
-import { default as App1 } from "@/components/application/app1/App";
-import { default as App2 } from "@/components/application/app2/App";
-import { default as App3 } from "@/components/application/app3/App";
-import { default as App4 } from "@/components/application/app4/App";
-import { JSX } from "react";
+import { ComponentType } from "react";
 
 export type AppMetaData = {
   id: string;
@@ -10,7 +6,7 @@ export type AppMetaData = {
   title: string;
   description: string;
   enabled: boolean;
-  component: JSX.Element;
+  componentPath: () => Promise<{ default: ComponentType<any> }>
 };
 
 export const appMetaDataList: AppMetaData[] = [
@@ -21,7 +17,7 @@ export const appMetaDataList: AppMetaData[] = [
     description:
       "モダンJavaScriptの基本から始めるReact実践の教科書のサンプルアプリケーションをNext.jsに移植",
     enabled: true,
-    component: <App1 />,
+    componentPath: () => import("@/components/application/app1/App"),
   },
   {
     id: "app2",
@@ -29,7 +25,7 @@ export const appMetaDataList: AppMetaData[] = [
     title: "APIの実装と動作確認",
     description: "Next.jsのAPIの実装方法の調査や動作検証用のアプリケーション",
     enabled: true,
-    component: <App2 />,
+    componentPath: () => import("@/components/application/app2/App"),
   },
   {
     id: "app3",
@@ -38,7 +34,7 @@ export const appMetaDataList: AppMetaData[] = [
     description:
       "https://jsonplaceholder.typicode.com/usersから取得したデータの表示、詳細ページへの遷移、検索等をするアプリケーション",
     enabled: true,
-    component: <App3 />,
+    componentPath: () => import("@/components/application/app3/App"),
   },
   {
     id: "app4",
@@ -47,6 +43,6 @@ export const appMetaDataList: AppMetaData[] = [
     description:
       "入力フォームの表示やDB登録・データ取得",
     enabled: true,
-    component: <App4 />,
+    componentPath: () => import("@/components/application/app4/App"),
   },
-];
+] satisfies readonly AppMetaData[];

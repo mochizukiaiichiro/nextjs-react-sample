@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { Title } from "./Title";
 import { AppMetaData, appMetaDataList } from "@/lib/appMetaDataList";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 type Props = {
     params: { app: string };
@@ -14,15 +16,17 @@ appMetaDataList.forEach(appMeatData => {
 
 export default async function HeaderAppPage({ params }: Props) {
     const { app } = await params;
+    const importFn = apps.get(app)?.componentPath;
 
-    if (!apps.has(app)) {
-        notFound();
-    }
+    if (!importFn) notFound();
+    const Component = dynamic(importFn);
 
     return (
         <>
-            <Title app={app} />
-            {apps.get(app)?.component!}
+            <Suspense fallback={<p>読み込み中...</p>}>
+                <Title app={app} />
+                <Component />
+            </Suspense>
         </>
     )
 }
