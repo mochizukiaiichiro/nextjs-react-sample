@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { Title } from "./Title";
 import { AppMetaData, appMetaDataList } from "@/lib/appMetaDataList";
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { Title } from "../../components/ui/Title";
+import { Skeleton } from "../../components/ui/skeleton";
 
 type Props = {
     params: { app: string };
@@ -19,14 +19,14 @@ export default async function HeaderAppPage({ params }: Props) {
     const importFn = apps.get(app)?.componentPath;
 
     if (!importFn) notFound();
-    const Component = dynamic(importFn);
+    const Component = dynamic(importFn, {
+        loading: () => <Skeleton />,
+    });
 
     return (
         <>
-            <Suspense fallback={<p>読み込み中...</p>}>
-                <Title app={app} />
-                <Component />
-            </Suspense>
+            <Title app={app} />
+            <Component />
         </>
     )
 }
@@ -37,7 +37,7 @@ export async function generateStaticParams() {
 }
 
 //メタ情報
-export async function generateMetadata({ params }: Props ) {
+export async function generateMetadata({ params }: Props) {
     const { app } = await params;
 
     if (!apps.has(app)) {
