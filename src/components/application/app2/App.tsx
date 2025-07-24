@@ -1,6 +1,5 @@
 "use client"
 
-import { appMetaList } from "@/lib/appMetaList";
 import { User } from "@/types/user";
 import { useState } from "react";
 
@@ -11,7 +10,6 @@ export const App = ({ Id }: { Id: string }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [db, setDb] = useState([]);
   const [error, setError] = useState<string | null>(null);
-  const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
 
   const onClick1 = async () => {
     const res = await fetch("/api/app2");
@@ -47,8 +45,6 @@ export const App = ({ Id }: { Id: string }) => {
 
   return (
     <>
-      <h1>{app?.title ?? "タイトル未定"}</h1>
-      <p>{app?.description}</p>
       <button onClick={onClick1}>データ取得</button>
       <p>{data}</p>
       <button onClick={onClick2}>外部APIからのデータ取得（jsonplaceholder/users）</button>

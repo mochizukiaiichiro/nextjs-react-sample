@@ -2,6 +2,7 @@ import { JSX } from "react";
 import { appComponentList } from "@/lib/appComponentList";
 import { notFound } from "next/navigation";
 import { appMetaList } from "@/lib/appMetaList";
+import { Title } from "./Title";
 
 type Props = {
     params: { app: string };
@@ -13,11 +14,6 @@ appComponentList.forEach(({ id, component }) => {
     apps.set(id, component);
 });
 
-// 静的生成対象のパラメータ
-export async function generateStaticParams() {
-    return appComponentList.map(({ id }) => ({ app: id }));
-}
-
 export default async function HeaderAppPage({ params }: Props) {
     const { app } = await params;
 
@@ -25,10 +21,21 @@ export default async function HeaderAppPage({ params }: Props) {
         notFound();
     }
 
-    return apps.get(app)!;
+    return (
+        <>
+            <Title Id={app} />
+            {apps.get(app)!}
+        </>
+    )
 }
 
-export async function generateMetadata({ params }: { params: { app: string } }) {
+// 静的生成対象のパラメータ
+export async function generateStaticParams() {
+    return appComponentList.map(({ id }) => ({ app: id }));
+}
+
+//メタ情報
+export async function generateMetadata({ params }: Props ) {
     const { app } = await params;
     const appMap = new Map(appMetaList.map(app => [app.id, app]));
     const appData = appMap.get(app);

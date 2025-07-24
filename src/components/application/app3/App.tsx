@@ -1,6 +1,5 @@
 "use client"
 
-import { appMetaList } from "@/lib/appMetaList";
 import { useSearchUsers } from "./hooks/useSearchUsers";
 import { useInitializeUsers } from "./hooks/useInitializeUsers";
 import { SearchList } from "./components/searchList";
@@ -9,15 +8,12 @@ import { PageWrapper } from "./style/app3-styled-components";
 import { useSortUsers } from "./hooks/useSortUsers";
 
 export const App = ({ Id }: { Id: string }) => {
-  const app = new Map(appMetaList.map(app => [app.id, app])).get(Id);
   const { allUsers, filteredUsers, error, setFilteredUsers } = useInitializeUsers();
   const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
   const { sortKey, sortOrder, handleSort, sortedUsers } = useSortUsers(filteredUsers);
 
   return (
     <PageWrapper>
-      <h1>{app?.title ?? "タイトル未定"}</h1>
-      <p>{app?.description}</p>
       <p>検索項目</p>
       <SearchItemBox searchItems={searchItems}
         onClickSearchButton={onClickSearchButton}

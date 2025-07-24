@@ -1,4 +1,3 @@
-
 import Header from "@/components/Layout/header";
 import StyledComponentsRegistry from "@/lib/registry";
 
