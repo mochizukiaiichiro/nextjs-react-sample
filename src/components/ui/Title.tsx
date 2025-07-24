@@ -1,16 +1,16 @@
-import { AppMetaData, appMetaDataList } from "@/lib/appMetaDataList";
+import { AppMetaData } from "@/lib/appMetaDataList";
 
-const apps = new Map<string, AppMetaData>();
-appMetaDataList.forEach(appMeatData => {
-    apps.set(appMeatData.id, appMeatData);
-});
+type Props = {
+    app: string;
+    appMetaDataRecord: Record<string, AppMetaData>
+}
 
-export const Title = ({ app }: { app: string }) => {
-    console.log(app);
+export const Title = (props: Props) => {
+    const{app,appMetaDataRecord }= props;
     return (
         <>
-            <h1>{apps.get(app)?.title ?? "タイトル未定"}</h1>
-            <p>{apps.get(app)?.description}</p>
+            <h1>{appMetaDataRecord[app].title ?? "タイトル未定"}</h1>
+            <p>{appMetaDataRecord[app].description}</p>
         </>
     )
 }

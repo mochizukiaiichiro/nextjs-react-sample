@@ -5,18 +5,18 @@ import { Title } from "../../components/ui/Title";
 import { Skeleton } from "../../components/ui/skeleton";
 
 type Props = {
-    params: { app: string };
+    params: { app: string };    //app1,app2,app3...
 };
 
-// パスとコンポーネントのマッピング
-const apps = new Map<string, AppMetaData>();
-appMetaDataList.forEach(appMeatData => {
-    apps.set(appMeatData.id, appMeatData);
-});
+// メタデータをRecordに変換
+const appMetaDataRecord: Record<string, AppMetaData> = appMetaDataList.reduce((acc, appMetaData) => {
+    acc[appMetaData.id] = appMetaData;
+    return acc;
+}, {} as Record<string, AppMetaData>);
 
 export default async function HeaderAppPage({ params }: Props) {
     const { app } = await params;
-    const importFn = apps.get(app)?.componentPath;
+    const importFn = appMetaDataRecord[app].componentPath;
 
     if (!importFn) notFound();
     const Component = dynamic(importFn, {
@@ -25,7 +25,7 @@ export default async function HeaderAppPage({ params }: Props) {
 
     return (
         <>
-            <Title app={app} />
+            <Title app={app} appMetaDataRecord={appMetaDataRecord}  />
             <Component />
         </>
     )
@@ -40,14 +40,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
     const { app } = await params;
 
-    if (!apps.has(app)) {
+    if (!appMetaDataRecord[app]) {
         return {
             title: "ページが見つかりません",
             description: "指定されたアプリは存在しません。",
         };
     }
     return {
-        title: apps.get(app)?.title,
-        description: `${apps.get(app)?.description}`,
+        title: appMetaDataRecord[app].title,
+        description: `${appMetaDataRecord[app].description}`,
     };
 }
