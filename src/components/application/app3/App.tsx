@@ -7,7 +7,7 @@ import { SearchItemBox } from "./components/searchItemBox";
 import { PageWrapper } from "./style/app3-styled-components";
 import { useSortUsers } from "./hooks/useSortUsers";
 
-export const App = ({ Id }: { Id: string }) => {
+export const App = () => {
   const { allUsers, filteredUsers, error, setFilteredUsers } = useInitializeUsers();
   const { searchItems, onChangeSearchItemInput, onClickSearchButton, onClickResetButton } = useSearchUsers(allUsers, setFilteredUsers);
   const { sortKey, sortOrder, handleSort, sortedUsers } = useSortUsers(filteredUsers);

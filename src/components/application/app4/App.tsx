@@ -1,4 +1,4 @@
-export const App = ({ Id }: { Id: string }) => {
+export const App = () => {
     return (
         <>
             フォーム

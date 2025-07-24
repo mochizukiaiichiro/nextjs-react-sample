@@ -5,7 +5,7 @@ import { useState } from "react";
 
 type ApiResponse = { users: User[] } | { error: string };
 
-export const App = ({ Id }: { Id: string }) => {
+export const App = () => {
   const [data, setData] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [db, setDb] = useState([]);

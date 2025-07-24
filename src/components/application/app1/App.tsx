@@ -4,7 +4,7 @@ import { MemoList } from './components/MemoList'
 import { useMemoList } from './hooks/useMemoList'
 import { button } from './style/Style'
 
-export const App = ({ Id }: { Id: string }) => {
+export const App = () => {
   const { memos, addTodo, deleteTodo } = useMemoList()
 
   // テキストボック変数数

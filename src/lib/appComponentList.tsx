@@ -6,18 +6,18 @@ import { default as App4 } from "@/components/application/app4/App";
 export const appComponentList = [
   {
     id: "app1",
-    component: <App1 Id="app1" />,
+    component: <App1/>,
   },
   {
     id: "app2",
-    component: <App2 Id="app2" />,
+    component: <App2/>,
   },
   {
     id: "app3",
-    component: <App3 Id="app3" />,
+    component: <App3/>,
   },
   {
     id: "app4",
-    component: <App4 Id="app4" />,
+    component: <App4/>,
   },
 ];
