@@ -8,7 +8,7 @@ type Props = {
     params: { app: string };    //app1,app2,app3...
 };
 
-export default async function HeaderAppPage({ params }: Props) {
+export default async function AppPage({ params }: Props) {
     const { app } = await params;
     const importFn = appMetaDataRecord[app].componentPath;
 
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
     return enabledAppList.map(({ id }) => ({ app: id }));
 }
 
-//メタ情報
+//ページのメタ情報
 export async function generateMetadata({ params }: Props) {
     const { app } = await params;
 
