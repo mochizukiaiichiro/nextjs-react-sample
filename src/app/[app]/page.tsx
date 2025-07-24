@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { AppMetaData, appMetaDataList } from "@/lib/appMetaDataList";
+import { appMetaDataRecord, enabledAppList } from "@/lib/appMetaDataRecord";
 import dynamic from "next/dynamic";
 import { Title } from "../../components/ui/Title";
 import { Skeleton } from "../../components/ui/skeleton";
@@ -7,12 +7,6 @@ import { Skeleton } from "../../components/ui/skeleton";
 type Props = {
     params: { app: string };    //app1,app2,app3...
 };
-
-// メタデータをRecordに変換
-const appMetaDataRecord: Record<string, AppMetaData> = appMetaDataList.reduce((acc, appMetaData) => {
-    acc[appMetaData.id] = appMetaData;
-    return acc;
-}, {} as Record<string, AppMetaData>);
 
 export default async function HeaderAppPage({ params }: Props) {
     const { app } = await params;
@@ -33,7 +27,7 @@ export default async function HeaderAppPage({ params }: Props) {
 
 // 静的生成対象のパラメータ
 export async function generateStaticParams() {
-    return appMetaDataList.map(({ id }) => ({ app: id }));
+    return enabledAppList.map(({ id }) => ({ app: id }));
 }
 
 //メタ情報

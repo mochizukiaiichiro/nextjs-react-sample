@@ -1,4 +1,4 @@
-import { AppMetaData } from "@/lib/appMetaDataList";
+import { AppMetaData } from "@/lib/appMetaDataRecord";
 
 type Props = {
     app: string;
