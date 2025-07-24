@@ -45,7 +45,7 @@ export const appMetaDataList: AppMetaData[] = [
     name: "App4",
     title: "フォーム動作確認",
     description:
-      "フォームからデータベースへデータの登録を行う。またデータの取得を行うアプリケーション",
+      "入力フォームの表示やDB登録・データ取得",
     enabled: true,
     component: <App4 />,
   },

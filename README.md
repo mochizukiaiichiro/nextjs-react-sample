@@ -14,7 +14,7 @@ Next.js、React、TypeScriptの勉強のために作成したアプリケーシ�
 | UI/Styling     | styled-components                             |
 | DB             | better-sqlite3                                |
 | API通信        | fetch API / RESTful                           |
-| フォルダ構成   | 機能単位で分離されたアプリ構成（app1, app2, app3） |
+| フォルダ構成   | アプリごとの分離構成（`app1` 〜 `app4`）      |
 
 ---
 
@@ -51,18 +51,20 @@ APIでのデータ取得とテーブルでの表示・検索・並び替えを�
 - カスタムフックによる責務分離
 - 表示ロジックの分離
 
+### `app4`: フォーム動作確認
+入力フォームの表示やDB登録・データ取得
+
 ---
 
 ## 動的ページ生成の構成
 
-このリポジトリでは、Next.js の App Router による `param-based dynamic routing` を活用し、複数アプリケーションを柔軟に切り替え可能な構成にしています。
+このプロジェクトでは、Next.js の App Router による param-based dynamic routing を採用し、各アプリのルーティングをデータ駆動的に動的生成しています。 アプリケーションのタイトルやJSX コンポーネントなどのメタ情報は、src/lib/appMetaDataList.tsx にて一元管理されており、 新しいアプリを追加する際は、このファイルにデータを追記するだけでルーティングが自動生成されます。
 
 ### 該当ファイルと役割
 
 | ファイル                         | 役割                                                                 |
 |----------------------------------|----------------------------------------------------------------------|
-| `src/lib/appMetaList.ts`         | 各アプリのメタ情報（ID・タイトル・説明）の一覧を定義                          |
-| `src/lib/appComponentList.tsx`   | 各アプリIDと対応する JSX コンポーネントの一覧を定義                          |
+| `src/lib/appMetaDataList.tsx`    | 各アプリケーションのタイトルやJSX コンポーネントなどのメタ情報を定義 |
 | `src/app/[app]/page.tsx`         | パス引数 `app` に基づき、対象コンポーネントを検索・表示する動的ルーティング構成 |
 
 ### 実行イメージ
@@ -70,8 +72,6 @@ APIでのデータ取得とテーブルでの表示・検索・並び替えを�
 - `http://localhost:3000/app1` → メモアプリを表示  
 - `http://localhost:3000/app2` → API検証アプリを表示  
 - `http://localhost:3000/app3` → ユーザー検索アプリを表示
-
-この構成により、**新しいアプリを定義する場合は、`appMetaList` と `appComponentList` に追記するだけでルーティングが自動生成されます**。
 
 ---
 
