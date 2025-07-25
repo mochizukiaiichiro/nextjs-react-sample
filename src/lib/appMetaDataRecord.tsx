@@ -15,7 +15,7 @@ export const appMetaDataRecord: Record<string, AppMetaData> = {
     name: "App1",
     title: "簡易メモアプリ",
     description:
-      "モダンJavaScriptの基本から始めるReact実践の教科書のサンプルアプリケーションをNext.jsに移植",
+      "React実践の教科書の付録を参考に作成したアプリケーション",
     enabled: true,
     componentPath: () => import("@/components/application/app1/App"),
   },
